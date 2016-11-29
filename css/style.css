@@ -1,0 +1,29 @@
+body {
+  font: 16px Times;
+}
+
+svg {
+  border: 1px solid grey;
+}
+
+.bar {
+  fill: #57b055;
+}
+
+.bar:hover {
+  fill: #b4f582;
+}
+
+div.tooltip {
+  position:absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: #454545;
+  color: white;
+  border: 1px;
+  border-radius: 8px;
+  pointer-events: none;
+}

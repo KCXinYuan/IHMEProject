@@ -1,4 +1,4 @@
-var data = d3.select("#test").html().trim();
+var data = d3.select("#data").html().trim();
 
 data = d3.csvParse(data, function(d) {
   return {
@@ -21,8 +21,38 @@ data = d3.csvParse(data, function(d) {
   };
 });
 
+//Create various data sets
+var maleOverweight = data.filter(function(d) {
+  if (d.sex === "male" && d.metric === "overweight") {
+    return d;
+  }
+});
+
+var maleObese = data.filter(function(d) {
+  if (d.sex === "male" && d.metric === "obese") {
+    return d;
+  }
+});
+
+var femaleOverweight = data.filter(function(d) {
+  if (d.sex === "female" && d.metric === "overweight") {
+    return d;
+  }
+});
+
+var femaleObese = data.filter(function(d) {
+  if (d.sex === "female" && d.metric === "obese") {
+    return d;
+  }
+});
+
+var tooltip = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+//Create the svg graph
 var width  = 1300;
-var height = 700;
+var height = 600;
 
 var svg = d3.select('body')
             .append('svg')
@@ -38,10 +68,11 @@ var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
     y = d3.scaleLinear().rangeRound([height,0]);
 
 var g = chart.append("g")
-             .attr ("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr ("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 x.domain(data.map(function(d) { return d.age_group; }));
-y.domain([0, d3.max(data, function(d) { return d.mean; })]);
+y.domain([0, 1]);
 
 g.append("g")
  .attr("class", "axis axis --x")
@@ -71,15 +102,50 @@ chart.append("text")
      .style("text-anchor", "middle")
      .text("Prevalence");
 
+//Create bars with data
 g.selectAll(".bar")
- .data(data)
+ .data(maleOverweight)
  .enter().append("rect")
          .attr("class", "bar")
-         .attr("id", function(d) { return d.sex + d.metric; })
          .attr("x", function(d) { return x(d.age_group); })
-         .attr("y", function(d) { return y(d.mean); })
          .attr("width", x.bandwidth())
+         .attr("y", function(d) { return y(d.mean); })
          .transition()
          .duration(1000)
          .delay(function(d,i) { return i*50; })
          .attr("height", function(d) { return height - y(d.mean); });
+
+g.selectAll(".bar")
+ .data(maleOverweight)
+ .on("mouseover", function(d) {
+    tooltip.transition()
+           .duration(200)
+           .style("opacity", 0.9);
+    tooltip.html("Mean: " + d.mean)
+           .style("left", (d3.event.pageX) + "px")
+           .style("top", (d3.event.pageY) + "px");
+ })
+ .on("mouseout", function(d) {
+    tooltip.transition()
+           .duration(500)
+           .style("opacity", 0);
+ });
+
+
+//Update the graph
+var update = function(data) {
+  var bars = chart.selectAll(".bar").data(data);
+
+  bars.enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.age_group); })
+      .attr("y", function(d) { return y(d.mean); })
+      .attr("height", function(d) { return height - y(d.mean); })
+      .attr("width", function(d) { return x.rangeBand(); });
+
+  bars.exit().remove();
+
+  bars.transition().duration(1000)
+      .attr("y", function(d) { return y(d.mean); })
+      .attr("height", function(d) { return height - y(d.mean); });
+};

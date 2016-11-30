@@ -9,10 +9,10 @@
   <body>
     <h1>2013 USA Obesity/Overweight Prevalence by Gender and Age</h1>
     <div class="buttons">
-      <button name="maleOverweightButton" class="button" type="button" value="update" onclick="update(maleOverweight)">Male Overweight</button>
-      <button name="femaleOverweightButton" class="button" type="button" value="update" onclick="update(femaleOverweight)">Female Overweight</button>
-      <button name="maleObeseButton" class="button" type="button" value="update" onclick="update(maleObese)">Male Obese</button>
-      <button name="femaleObeseButton" class="button" type="button" value="update" onclick="update(femaleObese)">Female Obese</button>
+      <button name="maleOverweightButton" id="over" value="update" onclick="update(maleOverweight)">Male Overweight</button>
+      <button name="femaleOverweightButton" id="over" value="update" onclick="update(femaleOverweight)">Female Overweight</button>
+      <button name="maleObeseButton" id="obese" value="update" onclick="update(maleObese)">Male Obese</button>
+      <button name="femaleObeseButton" id="obese" value="update" onclick="update(femaleObese)">Female Obese</button>
     </div>
     <script type="text/csv" id="data">
     location_id,location,location_name,year,age_group_id,age_group,age_start,age_end,sex_id,sex,unit,metric,measure,mean,lower,upper

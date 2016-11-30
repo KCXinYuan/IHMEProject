@@ -10,7 +10,7 @@ body {
   fill: #b4f582;
 }
 
-.button {
+#over {
   background-color: #57b055;
   border: 2px solid transparent;
   color: white;
@@ -24,10 +24,30 @@ body {
   transition-duration: 0.5s;
 }
 
-.button:hover {
+#over:hover {
   background-color: white;
   color: black;
   border: 2px solid #57b055;
+}
+
+#obese {
+  background-color: #3c7c3b;
+  border: 2px solid transparent;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+
+#obese:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid #2b592a;
 }
 
 div.tooltip {
